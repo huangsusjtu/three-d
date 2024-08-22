@@ -29,15 +29,15 @@ impl OrbitControl {
     pub fn handle_events(&mut self, camera: &mut Camera, events: &mut [Event]) -> bool {
         if let CameraAction::Zoom { speed, target, .. } = &mut self.control.scroll_vertical {
             let x = target.distance(*camera.position());
-            *speed = 0.01 * x + 0.001;
+            *speed = 0.002 * x + 0.0001;
         }
         if let CameraAction::OrbitLeft { speed, target } = &mut self.control.left_drag_horizontal {
             let x = target.distance(*camera.position());
-            *speed = 0.01 * x + 0.001;
+            *speed = 0.0001 * x + 0.0001;
         }
         if let CameraAction::OrbitUp { speed, target } = &mut self.control.left_drag_vertical {
             let x = target.distance(*camera.position());
-            *speed = 0.01 * x + 0.001;
+            *speed = 0.0001 * x + 0.0001;
         }
         self.control.handle_events(camera, events)
     }
