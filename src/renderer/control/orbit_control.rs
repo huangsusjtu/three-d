@@ -33,11 +33,11 @@ impl OrbitControl {
         }
         if let CameraAction::OrbitLeft { speed, target } = &mut self.control.left_drag_horizontal {
             let x = target.distance(*camera.position());
-            *speed = 0.0001 * x + 0.0001;
+            *speed = 0.001 * x + 0.0001;
         }
         if let CameraAction::OrbitUp { speed, target } = &mut self.control.left_drag_vertical {
             let x = target.distance(*camera.position());
-            *speed = 0.0001 * x + 0.0001;
+            *speed = 0.001 * x + 0.0001;
         }
         self.control.handle_events(camera, events)
     }

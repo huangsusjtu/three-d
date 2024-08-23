@@ -2,8 +2,7 @@ use three_d::core::{
     degrees, radians, vec3, ClearState, Context, Mat4, Program, RenderStates, Srgba, VertexBuffer,
 };
 use three_d::window::{FrameOutput, Window, WindowSettings};
-use three_d::CoreError;
-use three_d_asset::Camera;
+use three_d::{Camera, CoreError, OrbitControl};
 
 pub fn main() {
     // Create a window (a canvas on web)
@@ -52,16 +51,20 @@ pub fn main() {
         0.1,
         10.0,
     );
+    let mut control = OrbitControl::new(*camera.target(), 0.1, 1000.0);
 
-    window.render_loop(move |frame_input| {
+
+    window.render_loop(move |mut frame_input| {
         camera.set_viewport(frame_input.viewport);
+        control.handle_events(&mut camera, &mut frame_input.events);
 
         frame_input
             .screen()
             // Clear the color and depth of the screen render target
             .clear(ClearState::color_and_depth(0.8, 0.8, 0.8, 1.0, 1.0))
             .write::<CoreError>(|| {
-                let time = frame_input.accumulated_time as f32;
+                // let time = frame_input.accumulated_time as f32;
+                let time = 0.0;
                 program.use_uniform("model", Mat4::from_angle_y(radians(time * 0.005)));
                 program.use_uniform("viewProjection", camera.projection() * camera.view());
                 program.use_vertex_attribute("position", &positions);
