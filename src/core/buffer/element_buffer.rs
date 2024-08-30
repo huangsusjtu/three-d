@@ -63,7 +63,7 @@ impl ElementBuffer {
     ///
     /// Fills the buffer with the given indices which must be divisable by 3.
     ///
-    pub fn fill<T: ElementBufferDataType>(&mut self, data: &[T]) {
+    fn fill<T: ElementBufferDataType>(&mut self, data: &[T]) {
         self.bind();
         unsafe {
             self.context.buffer_data_u8_slice(

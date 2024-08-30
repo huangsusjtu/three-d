@@ -18,6 +18,11 @@ mod fly_control;
 #[doc(inline)]
 pub use fly_control::*;
 
+mod map_control;
+mod follower_control;
+
+pub use map_control::*;
+
 pub use three_d_asset::PixelPoint as PhysicalPoint;
 
 /// Type of mouse button.

@@ -336,7 +336,6 @@ impl Program {
             buffer.bind();
             let loc = self.location(name);
             unsafe {
-                self.context.bind_vertex_array(Some(self.context.vao));
                 self.context.enable_vertex_attrib_array(loc);
                 if !buffer.normalized()
                     && (buffer.data_type() == crate::context::UNSIGNED_BYTE
@@ -384,7 +383,7 @@ impl Program {
             buffer.bind();
             let loc = self.location(name);
             unsafe {
-                self.context.bind_vertex_array(Some(self.context.vao));
+                // self.context.bind_vertex_array(Some(self.context.vao));
                 self.context.enable_vertex_attrib_array(loc);
                 if !buffer.normalized()
                     && (buffer.data_type() == crate::context::UNSIGNED_BYTE
@@ -415,6 +414,12 @@ impl Program {
                 self.context.bind_buffer(crate::context::ARRAY_BUFFER, None);
             }
             self.unuse_program();
+        }
+    }
+
+    pub fn use_vertex_array(&self, vao: Option<glow::VertexArray>) {
+        unsafe {
+            self.context.bind_vertex_array(vao);
         }
     }
 

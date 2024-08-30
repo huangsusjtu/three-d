@@ -21,5 +21,8 @@ pub mod window;
 pub use window::*;
 
 mod gui;
+
 #[allow(unused_imports)]
 pub use gui::*;
+
+pub mod app;

@@ -82,6 +82,11 @@ mod rectangle;
 pub use rectangle::*;
 
 mod circle;
+
+mod line_curve;
+#[doc(inline)]
+pub use line_curve::*;
+
 #[doc(inline)]
 pub use circle::*;
 
@@ -264,6 +269,8 @@ struct BaseMesh {
     tangents: Option<VertexBuffer>,
     uvs: Option<VertexBuffer>,
     colors: Option<VertexBuffer>,
+
+    vao: Option<crate::context::VertexArray>,
 }
 
 impl BaseMesh {
@@ -271,6 +278,8 @@ impl BaseMesh {
         #[cfg(debug_assertions)]
         cpu_mesh.validate().expect("invalid cpu mesh");
 
+        let vao = unsafe { Some(context.create_vertex_array().unwrap()) };
+        unsafe { context.bind_vertex_array(vao) };
         Self {
             indices: match &cpu_mesh.indices {
                 Indices::U8(ind) => Some(ElementBuffer::new_with_data(context, ind)),
@@ -302,6 +311,7 @@ impl BaseMesh {
                     &data.iter().map(|c| c.to_linear_srgb()).collect::<Vec<_>>(),
                 )
             }),
+            vao,
         }
     }
 
@@ -352,6 +362,7 @@ impl BaseMesh {
     }
 
     fn use_attributes(&self, program: &Program, attributes: FragmentAttributes) {
+        program.use_vertex_array(self.vao);
         program.use_vertex_attribute("position", &self.positions);
 
         if attributes.normal {

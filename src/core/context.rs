@@ -14,7 +14,6 @@ pub use crate::context::HasContext;
 #[derive(Clone)]
 pub struct Context {
     context: Arc<crate::context::Context>,
-    pub(super) vao: crate::context::VertexArray,
     /// A cache of programs to avoid recompiling a [Program] every frame.
     pub programs: Arc<RwLock<HashMap<Vec<u8>, Program>>>,
 }
@@ -36,13 +35,8 @@ impl Context {
             context.pixel_store_i32(crate::context::PACK_ALIGNMENT, 1);
         };
         let c = unsafe {
-            // Create one Vertex Array Object which is then reused all the time.
-            let vao = context
-                .create_vertex_array()
-                .map_err(CoreError::ContextCreation)?;
             Self {
                 context,
-                vao,
                 programs: Arc::new(RwLock::new(HashMap::new())),
             }
         };
