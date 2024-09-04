@@ -67,4 +67,3 @@ impl InstanceBuffer {
         self.buffer.normalized
     }
 }
-

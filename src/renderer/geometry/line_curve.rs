@@ -12,11 +12,7 @@ impl LineCurve {
     ///
     /// Constructs a new line geometry.
     ///
-    pub fn new(
-        context: &Context,
-        points: &[Vec3],
-        thickness: f32,
-    ) -> Self {
+    pub fn new(context: &Context, points: &[Vec3], thickness: f32) -> Self {
         let mut mesh = CpuMesh::line_curve(points, thickness);
         let mut line_curve = Self {
             mesh: Mesh::new(context, &mesh),

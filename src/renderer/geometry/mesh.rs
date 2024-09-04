@@ -234,4 +234,3 @@ impl Geometry for Mesh {
         )
     }
 }
-

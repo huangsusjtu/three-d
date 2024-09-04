@@ -18,10 +18,13 @@ mod fly_control;
 #[doc(inline)]
 pub use fly_control::*;
 
-mod map_control;
 mod follower_control;
+#[doc(inline)]
+pub use follower_control::*;
 
-pub use map_control::*;
+mod bev_control;
+#[doc(inline)]
+pub use bev_control::*;
 
 pub use three_d_asset::PixelPoint as PhysicalPoint;
 

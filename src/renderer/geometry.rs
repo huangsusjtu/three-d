@@ -276,7 +276,12 @@ struct BaseMesh {
 impl BaseMesh {
     pub fn new(context: &Context, cpu_mesh: &CpuMesh) -> Self {
         #[cfg(debug_assertions)]
-        cpu_mesh.validate().expect("invalid cpu mesh");
+        match cpu_mesh.validate() {
+            Ok(_) => {}
+            Err(e) => {
+                panic!("cpu_mesh.validate {:#?}", e)
+            }
+        }
 
         let vao = unsafe { Some(context.create_vertex_array().unwrap()) };
         unsafe { context.bind_vertex_array(vao) };

@@ -9,6 +9,7 @@ use crate::core::*;
 ///
 /// Represents a camera used for viewing 2D and 3D objects.
 ///
+///
 #[derive(Clone, Debug)]
 pub struct Camera {
     camera: three_d_asset::Camera,
