@@ -24,22 +24,9 @@ impl BevControl {
 
     /// Handles the events. Must be called each frame.
     pub fn handle_events(&mut self, camera: &mut Camera, events: &mut [Event]) -> bool {
-        {
-            let c_type = camera.projection_type().clone();
-            let physic_height = match c_type {
-                // 相机视图里代表的物理真实高度
-                ProjectionType::Orthographic { height } => height,
-                ProjectionType::Perspective { .. } => {
-                    return false;
-                }
-            };
-            self.ratio = physic_height / camera.viewport().height as f32; // 像素单位对应的真实物理单位
-        }
-
         for event in events {
+            self.update_self(camera);
             match event {
-                Event::MousePress { .. } => {}
-                Event::MouseRelease { .. } => {}
                 Event::MouseMotion {
                     button,
                     delta,
@@ -71,8 +58,6 @@ impl BevControl {
                     let scale = if delta.1 > 0.0 { 0.8 } else { 1.2 };
                     self.zoom_(camera, position, scale);
                 }
-                Event::MouseEnter => {}
-                Event::MouseLeave => {}
                 Event::KeyPress {
                     kind,
                     modifiers: _modifiers,
@@ -88,13 +73,22 @@ impl BevControl {
                     Key::W => {}
                     _ => {}
                 },
-                Event::KeyRelease { .. } => {}
-                Event::ModifiersChange { .. } => {}
-                Event::Text(_) => {}
+                _ => {}
             }
         }
 
         return true;
+    }
+    fn update_self(&mut self, camera: &mut Camera) {
+        let c_type = camera.projection_type().clone();
+        let physic_height = match c_type {
+            // 相机视图里代表的物理真实高度
+            ProjectionType::Orthographic { height } => height,
+            ProjectionType::Perspective { .. } => {
+                return;
+            }
+        };
+        self.ratio = physic_height / camera.viewport().height as f32; // 像素单位对应的真实物理单位
     }
 
     /// 从bev视角上移动相机
